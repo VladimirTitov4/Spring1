@@ -10,18 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(urlPatterns = "/user/*")
 public class UserServlet extends HttpServlet {
+
+    private static final Pattern PATTERN = Pattern.compile("\\/(\\d+)");
 
     private UserRepository userRepository;
 
     @Override
     public void init() throws ServletException {
-        this.userRepository = new UserRepository();
-        this.userRepository.insert(new User("Vladimir"));
-        this.userRepository.insert(new User("Anastasia"));
-        this.userRepository.insert(new User("Evgeniy"));
+        this.userRepository = (UserRepository) getServletContext().getAttribute("userRepository");
     }
 
     @Override
@@ -31,21 +32,38 @@ public class UserServlet extends HttpServlet {
         response.getWriter().println("request.getPathInfo() " + "<p>" + pathInfo + "</p>");
         response.getWriter().println("request.getContextPath() " + "<p>" + contextPath + "</p>");*/
 
-        PrintWriter writer = response.getWriter();
-        writer.println("<table>");
-        writer.println("<tr>");
-        writer.println("<th>id</th>");
-        writer.println("<th>username</th>");
-        writer.println("</tr>");
-
-        for (User user : userRepository.findAll()) {
+        if (request.getPathInfo() == null || request.getPathInfo().equals("/")) {
+            PrintWriter writer = response.getWriter();
+            writer.println("<table>");
             writer.println("<tr>");
-            writer.println("<td>" + user.getId() + "</td>");
-//            writer.println("<td><a href='" + getServletContext().getContextPath() + "/user/" + user.getId() + "'>" + user.getId() + "</a></td>");
-            writer.println("<td>" + user.getUsername() + "</td>");
+            writer.println("<th>id</th>");
+            writer.println("<th>username</th>");
             writer.println("</tr>");
+
+            for (User user : userRepository.findAll()) {
+                writer.println("<tr>");
+                writer.println("<td><a href='" + getServletContext().getContextPath() + "/user/" + user.getId() + "'>" + user.getId() + "</a></td>");
+                writer.println("<td>" + user.getUsername() + "</td>");
+                writer.println("</tr>");
+            }
+            writer.println("</table>");
+        } else {
+            Matcher matcher = PATTERN.matcher(request.getPathInfo());
+            if (matcher.matches()) {
+                long id = Long.parseLong(matcher.group(1));
+                User user = userRepository.findById(id);
+                if (user == null) {
+                    response.getWriter().println("<p> User not found</p>");
+                    response.setStatus(404);
+                    return;
+                }
+                response.getWriter().println("<p>Id: " + user.getId() + "</p>");
+                response.getWriter().println("<p>Username: " + user.getUsername() + "</p>");
+            } else {
+                response.getWriter().println("<p>" + "Bad parameters" + " </p>");
+                response.setStatus(400);
+            }
         }
 
-        writer.println("</table>");
     }
 }
