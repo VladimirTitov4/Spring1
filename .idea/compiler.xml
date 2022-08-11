@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="lesson1-servlet-api" />
+        <module name="lesson2-spring-basics" />
       </profile>
     </annotationProcessing>
   </component>
