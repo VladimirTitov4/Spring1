@@ -53,6 +53,7 @@ cmake-build-*/
 out/
 lesson1-servlet-api/target
 lesson2-spring-basics/target
+lesson3-spring-mvc/target
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

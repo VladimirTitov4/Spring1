@@ -18,6 +18,7 @@
     <modules>
         <module>lesson1-servlet-api</module>
         <module>lesson2-spring-basics</module>
+        <module>lesson3-spring-mvc</module>
     </modules>
 
     <dependencies>
