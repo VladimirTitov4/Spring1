@@ -1,6 +1,7 @@
 package ru.titov;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.titov.persist.User;
 import ru.titov.persist.UserRepository;
@@ -10,12 +11,9 @@ import javax.annotation.PostConstruct;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Qualifier("first")
+    private UserRepository userRepository;
 
     @PostConstruct
     public void init() {
@@ -33,5 +31,10 @@ public class UserService {
 
     public int findAll() {
         return this.userRepository.findAll().size();
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

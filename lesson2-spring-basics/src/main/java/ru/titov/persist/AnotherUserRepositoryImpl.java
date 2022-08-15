@@ -1,5 +1,6 @@
 package ru.titov.persist;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Repository(value = "userRepository")
+@Repository("second")
 public class AnotherUserRepositoryImpl implements UserRepository {
 
     private final Map<Long, User> userMap = new ConcurrentHashMap<>();
