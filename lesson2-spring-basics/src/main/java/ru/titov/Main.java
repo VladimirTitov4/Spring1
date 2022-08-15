@@ -13,9 +13,9 @@ public class Main {
 //        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
         UserService userService = context.getBean("userService", UserService.class);
-        Cart cart1 = context.getBean("cart", Cart.class);
-        Cart cart2 = context.getBean("cart", Cart.class);
-        Cart cart3 = context.getBean("cart", Cart.class);
+//        Cart cart1 = context.getBean("cart", Cart.class);
+//        Cart cart2 = context.getBean("cart", Cart.class);
+//        Cart cart3 = context.getBean("cart", Cart.class);
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
