@@ -1,6 +1,7 @@
 package ru.titov.persist;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
 
     private Long id;
