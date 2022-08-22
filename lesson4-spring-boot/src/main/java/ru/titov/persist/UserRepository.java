@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -29,8 +30,8 @@ public class UserRepository {
         return new ArrayList<>(userMap.values());
     }
 
-    public User findById(long id) {
-        return userMap.get(id);
+    public Optional<User> findById(long id) {
+        return Optional.ofNullable(userMap.get(id));
     }
 
     public void insert(User user) {
