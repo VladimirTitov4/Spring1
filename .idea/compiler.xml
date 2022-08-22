@@ -12,6 +12,7 @@
         <module name="lesson2-sping-basics" />
         <module name="lesson3-spring-mvc" />
         <module name="lesson4-spring-boot" />
+        <module name="lesson5-hibernate" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
