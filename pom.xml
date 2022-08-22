@@ -21,7 +21,7 @@
         <module>lesson2-spring-basics</module>
         <module>lesson3-spring-mvc</module>
         <module>lesson4-spring-boot</module>
-        <module>lessont5-hibernate</module>
+        <module>lesson5-hibernate</module>
     </modules>
 
     <dependencies>

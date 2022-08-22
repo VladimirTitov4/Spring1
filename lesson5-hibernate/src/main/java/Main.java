@@ -59,9 +59,11 @@ public class Main {
 //
 //        entityManager.getTransaction().commit();
 
-        Object singleResult = entityManager.createNativeQuery("select u.id as userId\n" +
-                "from users u\n" +
-                "where u.username like '%brain%'", String.class).getSingleResult();
+//        Object singleResult = entityManager.createNativeQuery("""
+//                            select u.id as userId
+//                            from users u
+//                            where u.username like '%brain%'
+//                """, String.class).getSingleResult();
 
         entityManager.close();
         entityManagerFactory.close();
