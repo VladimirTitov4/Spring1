@@ -1,3 +1,5 @@
+package ru.titov;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.cfg.Configuration;
@@ -8,13 +10,13 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        EntityManagerFactory entityManagerFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .buildSessionFactory();
-
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        // INSERT
+//        EntityManagerFactory entityManagerFactory = new Configuration()
+//                .configure("hibernate.cfg.xml")
+//                .buildSessionFactory();
+//
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//
+//        // INSERT
 //        entityManager.getTransaction().begin();
 //
 //        entityManager.persist(new User("User1", "1@a.com", "pass1"));
@@ -65,7 +67,7 @@ public class Main {
 //                            where u.username like '%brain%'
 //                """, String.class).getSingleResult();
 
-        entityManager.close();
-        entityManagerFactory.close();
+//        entityManager.close();
+//        entityManagerFactory.close();
     }
 }
