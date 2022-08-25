@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "findAllUsers", query = "Select u from User u"),
+        @NamedQuery(name = "countAllUsers", query = "Select count(u) from User u"),
+        @NamedQuery(name = "deleteUserById", query = "delete from User u where u.id = :id")
+})
 public class User {
 
     @Id
