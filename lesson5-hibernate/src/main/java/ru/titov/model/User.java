@@ -1,17 +1,25 @@
 package ru.titov.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,15 +41,29 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
-    private String email;
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
+            orphanRemoval = true)
+    private List<Contact> contacts;
 
     @Column(nullable = false, length = 1024)
     private String password;
 
-    public User(String username, String email, String password) {
+    @OneToOne(mappedBy = "user",
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private Customer customer;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Role> roles;
+
+    @Embedded
+    private Passport passport;
+
+    public User(String username, List<Contact> contacts, String password) {
         this.username = username;
-        this.email = email;
+        this.contacts = contacts;
         this.password = password;
     }
 }
