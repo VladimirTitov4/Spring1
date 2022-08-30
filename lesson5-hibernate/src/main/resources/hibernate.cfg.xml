@@ -19,5 +19,7 @@
         <mapping class="ru.titov.model.Contact"/>
         <mapping class="ru.titov.model.Customer"/>
         <mapping class="ru.titov.model.Role"/>
+        <mapping class="ru.titov.model.LineItem"/>
+        <mapping class="ru.titov.model.Product"/>
     </session-factory>
 </hibernate-configuration>
