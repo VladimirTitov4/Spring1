@@ -2,6 +2,7 @@ package ru.titov.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.titov.exceptions.EntityNotFoundException;
 import ru.titov.persist.User;
+import ru.titov.persist.InMemoryUserRepository;
 import ru.titov.persist.UserRepository;
+import ru.titov.persist.UserRepositoryImpl;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -27,7 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserRepositoryImpl userRepository;
 
     @GetMapping
     public String listPage(Model model) {
@@ -37,7 +39,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String form(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id)
+        model.addAttribute("user", userRepository.userById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found")));
         return "user_form";
     }
@@ -50,12 +52,12 @@ public class UserController {
 
     @DeleteMapping("{id}")
     public String deleteUserById(@PathVariable long id) {
-        userRepository.delete(id);
+        userRepository.deleteById(id);
         return "redirect:/user";
     }
 
     @PostMapping
-    public String saveUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+    public String saveUser(@Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "user_form";
         }
