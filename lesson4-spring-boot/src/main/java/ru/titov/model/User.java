@@ -1,25 +1,23 @@
-package ru.titov.persist;
+package ru.titov.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -34,9 +32,6 @@ public class User {
 
     @Column(nullable = false, length = 1024)
     private String password;
-
-    @Transient
-    private String matchingPassword;
 
     public User(String username) {
         this.username = username;

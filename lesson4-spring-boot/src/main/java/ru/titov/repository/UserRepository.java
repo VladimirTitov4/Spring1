@@ -1,9 +1,10 @@
-package ru.titov.persist;
+package ru.titov.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
+import ru.titov.model.User;
 
 import java.util.List;
 
