@@ -1,5 +1,6 @@
 package ru.titov.controller;
 
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.titov.exceptions.EntityNotFoundException;
+import ru.titov.persist.QUser;
 import ru.titov.persist.User;
 import ru.titov.persist.UserRepository;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -39,10 +42,37 @@ public class UserController {
         return "user";
     }*/
 
-    @GetMapping
-    public String listPage(@RequestParam(required = false) String usernameFilter, Model model) {
+    /*@GetMapping
+    public String listPage(
+            @RequestParam(required = false) String usernameFilter,
+            @RequestParam(required = false) String emailFilter,
+            Model model
+    ) {
         usernameFilter = usernameFilter == null || usernameFilter.isBlank() ? null : "%" + usernameFilter.trim() + "%";
-        model.addAttribute("users", userRepository.usersByUsername(usernameFilter));
+        emailFilter = emailFilter == null || emailFilter.isBlank() ? null : "%" + emailFilter.trim() + "%";
+        model.addAttribute("users", userRepository.usersByFilter(usernameFilter, emailFilter));
+        return "user";
+    }*/
+
+    @GetMapping
+    public String listPage(
+            @RequestParam(required = false) String usernameFilter,
+            @RequestParam(required = false) String emailFilter,
+            Model model
+    ) {
+        QUser user = QUser.user;
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(user.password.contains("1223"));
+
+        if (usernameFilter != null && !usernameFilter.isBlank()) {
+            predicate.and(user.username.contains(usernameFilter.trim()));
+        }
+
+        if (emailFilter != null && !emailFilter.isBlank()) {
+            predicate.and(user.email.contains(emailFilter.trim()));
+        }
+
+        model.addAttribute("users", userRepository.findAll(predicate));
         return "user";
     }
 
