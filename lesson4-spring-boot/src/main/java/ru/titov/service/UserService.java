@@ -1,17 +1,14 @@
 package ru.titov.service;
 
-import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.titov.model.QUser;
 import ru.titov.model.dto.UserDto;
 import ru.titov.model.mapper.UserDtoMapper;
 import ru.titov.repository.UserRepository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -20,21 +17,11 @@ public class UserService {
     private final UserDtoMapper mapper;
     private final UserRepository userRepository;
 
-    public List<UserDto> findAllByFilter(String usernameFilter, String emailFilter) {
-        QUser user = QUser.user;
-        BooleanBuilder predicate = new BooleanBuilder();
-
-        if (usernameFilter != null && !usernameFilter.isBlank()) {
-            predicate.and(user.username.contains(usernameFilter.trim()));
-        }
-
-        if (emailFilter != null && !emailFilter.isBlank()) {
-            predicate.and(user.email.contains(emailFilter.trim()));
-        }
-
-        return StreamSupport.stream(userRepository.findAll(predicate).spliterator(), true)
-                .map(mapper::map)
-                .collect(Collectors.toList());
+    public Page<UserDto> findAllByFilter(String usernameFilter, String emailFilter, int page, int size) {
+        usernameFilter = usernameFilter == null || usernameFilter.isBlank() ? null : "%" + usernameFilter.trim() + "%";
+        emailFilter = emailFilter == null || emailFilter.isBlank() ? null : "%" + emailFilter.trim() + "%";
+        return userRepository.usersByFilter(usernameFilter, emailFilter, PageRequest.of(page, size))
+                .map(mapper::map);
     }
 
     public Optional<UserDto> findUserById(Long id) {

@@ -20,6 +20,7 @@ import ru.titov.model.dto.UserDto;
 import ru.titov.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -55,9 +56,14 @@ public class UserController {
     public String listPage(
             @RequestParam(required = false) String usernameFilter,
             @RequestParam(required = false) String emailFilter,
+            @RequestParam(required = false) Optional<Integer> page,
+            @RequestParam(required = false) Optional<Integer> size,
             Model model
     ) {
-        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter));
+        Integer pageValue = page.orElse(1) - 1;
+        Integer sizeValue = size.orElse(3);
+
+        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter, pageValue, sizeValue));
         return "user";
     }
 
