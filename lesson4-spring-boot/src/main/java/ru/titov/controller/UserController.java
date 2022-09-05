@@ -58,12 +58,13 @@ public class UserController {
             @RequestParam(required = false) String emailFilter,
             @RequestParam(required = false) Optional<Integer> page,
             @RequestParam(required = false) Optional<Integer> size,
+            @RequestParam(required = false) Optional<String> sortField,
             Model model
     ) {
         Integer pageValue = page.orElse(1) - 1;
         Integer sizeValue = size.orElse(3);
-
-        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter, pageValue, sizeValue));
+        String sortFieldValue = sortField.filter(s -> !s.isBlank()).orElse("id");
+        model.addAttribute("users", service.findAllByFilter(usernameFilter, emailFilter, pageValue, sizeValue, sortFieldValue));
         return "user";
     }
 
