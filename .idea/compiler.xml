@@ -12,6 +12,7 @@
         <module name="lesson2-sping-basics" />
         <module name="lesson3-spring-mvc" />
         <module name="lesson2-spring-basics" />
+        <module name="lesson10" />
         <module name="lesson5-hibernate" />
       </profile>
       <profile name="Annotation profile for Spring1" enabled="true">
@@ -32,6 +33,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lesson10" options="-parameters" />
       <module name="lesson4-spring-boot" options="-parameters" />
     </option>
   </component>
