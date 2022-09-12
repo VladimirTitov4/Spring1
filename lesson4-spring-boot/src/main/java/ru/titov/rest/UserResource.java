@@ -34,7 +34,6 @@ public class UserResource {
             @RequestParam(required = false) Optional<Integer> size,
             @RequestParam(required = false) Optional<String> sortField
     ) {
-        log.info("HERE WE ARE");
         Integer pageValue = page.orElse(1) - 1;
         Integer sizeValue = size.orElse(3);
         String sortFieldValue = sortField.filter(s -> !s.isBlank()).orElse("id");
@@ -49,7 +48,11 @@ public class UserResource {
 
     @PutMapping
     public UserDto updateUser(@RequestBody UserDto user) {
-        service.save(user);
+        try {
+            service.save(user);
+        } catch (RuntimeException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+        }
         return user;
     }
 
