@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,9 +16,7 @@ import ru.titov.exceptions.EntityNotFoundException;
 import ru.titov.model.dto.UserDto;
 import ru.titov.service.UserService;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -43,10 +42,15 @@ public class UserResource {
         return allByFilter;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/id")
     public UserDto form(@PathVariable("id") long id, Model model) {
-        UserDto userDto = service.findUserById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        return userDto;
+        return service.findUserById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
+    @PutMapping
+    public UserDto updateUser(@RequestBody UserDto user) {
+        service.save(user);
+        return user;
     }
 
     @PostMapping
