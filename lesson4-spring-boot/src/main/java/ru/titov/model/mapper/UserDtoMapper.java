@@ -1,8 +1,11 @@
 package ru.titov.model.mapper;
 
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.NullValueCheckStrategy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.titov.model.User;
 import ru.titov.model.dto.UserDto;
 
@@ -13,6 +16,12 @@ public interface UserDtoMapper {
     UserDto map(User user);
 
     @Mapping(target = "id", ignore = true)
-    User map(UserDto dto);
+    @Mapping(source = "password", target = "password", qualifiedByName = "encode")
+    User map(UserDto dto, @Context PasswordEncoder encoder);
+
+    @Named("encode")
+    default String encode(String password, @Context PasswordEncoder encoder) {
+        return encoder.encode(password);
+    }
 
 }
