@@ -21,13 +21,19 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
             and (:emailFilter is null or u.email like :emailFilter)
             """,
             countQuery = """
-            select count(*) from users u
-            where (:usernameFilter is null or u.username like :usernameFilter)
-            and (:emailFilter is null or u.email like :emailFilter)
-            """,
+                    select count(*) from users u
+                    where (:usernameFilter is null or u.username like :usernameFilter)
+                    and (:emailFilter is null or u.email like :emailFilter)
+                    """,
             nativeQuery = true)
     Page<User> usersByFilter(String usernameFilter, String emailFilter, Pageable pageable);
 
+    @Query(""" 
+            select u 
+            from User u 
+            join fetch u.roles
+            where u.username = :username
+            """)
     Optional<User> findByUsername(String username);
 
 }
